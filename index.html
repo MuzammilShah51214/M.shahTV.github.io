@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LIVE-TV</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url('https://i.pinimg.com/originals/46/31/e6/4631e634c97cf94f6c93607ad8ffe906.gif');
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .alignleft {
+        float: left;
+        margin-left: 5px;
+        color: silver;
+        font-weight: bold;
+        font-size: 15px;
+    }
+    .alignright {
+        float: right;
+        margin-right: 10px;
+        font-size: 15px;
+        font-weight: normal;
+    }
+    h4 {
+        margin-left: 5px;
+        color: silver;
+        font-weight: bold;
+        font-size: 15px;
+    }
+    .nta {
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+    div.scrollmenu {
+        background-color: transparent;
+        overflow: auto;
+        white-space: nowrap;
+        position: relative;
+        overflow-y: hidden;
+        padding: 10px 0;
+    }
+    div.scrollmenu a {
+        display: inline-block;
+        color: green;
+        text-align: center;
+        padding: 5px;
+        text-decoration: none;
+    }
+    
+    /* Modern Neon Animation Button */
+    .see-all-btn {
+        display: inline-block;
+        padding: 8px 25px;
+        color: #00f3ff !important;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 2px solid #00f3ff;
+        border-radius: 5px;
+        background: transparent;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.3),
+                    0 0 20px rgba(0, 243, 255, 0.2),
+                    0 0 30px rgba(0, 243, 255, 0.1);
+    }
+    
+    .see-all-btn:hover {
+        background: rgba(0, 243, 255, 0.1);
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.5),
+                    0 0 30px rgba(0, 243, 255, 0.3),
+                    0 0 45px rgba(0, 243, 255, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .see-all-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+        transition: 0.5s;
+    }
+    
+    .see-all-btn:hover::before {
+        left: 100%;
+    }
+    
+    .see-all-arrow {
+        margin-left: 8px;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    
+    .see-all-btn:hover .see-all-arrow {
+        transform: translateX(5px);
+        text-shadow: 0 0 5px #00f3ff,
+                     0 0 10px #00f3ff,
+                     0 0 15px #00f3ff;
+    }
+    
+    .see-all-btn {
+        animation: neon-pulse-btn 2s infinite;
+    }
+    
+    @keyframes neon-pulse-btn {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    
+    /* Context Menu Prevention Styles */
+    .disable-context-menu {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .context-menu-block {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .context-menu-block::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+    }
+    
+    /* Apply to all scrollmenu items */
+    .scrollmenu a {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Apply to all images */
+    .scrollmenu img {
+        pointer-events: none;
+    }
+ 
+        .cen {
+            position:relative;
+            text-align:center;
+            color:red;
+            display: inline-block;
+        }
+        .centered {
+            font-size:14px;
+            font-weight:bold;
+            position:absolute;
+            top:80%;
+            left: 50%;
+            transform:translate(-50%, -50%);
+        }
+        .cent {
+            font-size:auto;
+            position:absolute;
+            top:100%;
+            left: 50%;
+            transform:translate(-50%, -50%);
+        }
+        .nt {
+            width: 120px;
+            border-radius: 15px;
+            height: 155px;
+            z-index:1;
+            border: 2px solid #f2f2f2;
+            transition: all 0.3s ease;
+        }
+        .nt:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+        }
+        .mnt {
+            width: 150px;
+            border-radius: 5px;
+            height: 80px;
+            border: 2px solid #f2f2f2;
+            transition: all 0.3s ease;
+        }
+        .mnt:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+        }
+        .mnd {
+            width: 110px;
+            border-radius: 60px;
+            height: 110px;
+            border: 2px solid #de3c8b;
+            transition: all 0.3s ease;
+        }
+        .mnd:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+        .trt {
+            width: 250px;
+            border-radius: 5px;
+            height: 130px;
+            border: 2px solid #f2f2f2;
+            transition: all 0.3s ease;
+        }
+        .trt:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+        .carousel-inner img {
+            width: 100%;
+            height: auto;
+            border: 3px solid gold;
+            border-radius: 5px;
+        }
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+        .live-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        .main-content {
+            margin-top: 20px;
+            padding-bottom: 50px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: rgba(0,0,0,0.7);
+            margin-top: 20px;
+        }
+        
+        .image-container {
+            padding: 5px;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* New Click Animation Styles */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+        
+        .click-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .click-glow-animate {
+            animation: glow 0.5s ease-out;
+        }
+        
+        @keyframes glow {
+            0% { opacity: 0.8; transform: scale(0.8); }
+            100% { opacity: 0; transform: scale(1.2); }
+        }
+        
+        .click-pulse {
+            animation: pulse-click 0.3s ease-out;
+        }
+        
+        @keyframes pulse-click {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        
+        .animation {
+            font-family: 'charm', ; 
+            margin: 0; 
+            padding: 20px; 
+            font-size: 23px;
+            background: url('https://i.pinimg.com/736x/2a/80/55/2a80556003c4888436e5daff845fc12a.jpg') repeat;
+            background-clip: text; 
+            -webkit-background-clip: text; 
+            color: transparent; 
+            animation: moveBg 5s linear infinite; 
+            -webkit-animation: moveBg 5s linear infinite;
+        } 
+        
+        @keyframes moveBg { 
+            0% { background-position:90%; } 
+            100% { background-position:10%;} 
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Original Content -->
+    <div id="HeadCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#HeadCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#HeadCarousel" data-slide-to="1"></li>
+            <li data-target="#HeadCarousel" data-slide-to="2"></li>
+            <li data-target="#HeadCarousel" data-slide-to="3"></li>
+            <li data-target="#HeadCarousel" data-slide-to="4"></li>       
+            <li data-target="#HeadCarousel" data-slide-to="5"></li>         
+            <li data-target="#HeadCarousel" data-slide-to="6"></li>         
+            <li data-target="#HeadCarousel" data-slide-to="7"></li>  
+            <li data-target="#HeadCarousel" data-slide-to="8"></li>
+            <li data-target="#HeadCarousel" data-slide-to="9"></li>
+            <li data-target="#HeadCarousel" data-slide-to="10"></li>
+           <li data-target="#HeadCarousel" data-slide-to="11"></li> 
+        </ol>
+        
+        <div class="carousel-inner">
+            <div class="item active"> <img src="https://i.pinimg.com/736x/12/81/2a/12812a884ee0a4478f675a30887d799f.jpg">
+                    <div class="carousel-caption cap">
+                        <h3></h3>
+                    </div>
+                </a>
+            </div>
+
+
+
+
+                 <div class="item">
+                <a class="item" href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/6167ddb71e2413a118b942ed1479af725c94748c/Saiyaara-full-movie.html">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGtNyFMP2Ox1IDuFWepY767RexoFgLcmj00Ye-OTvyWhv1pAR-Lo8IEmA&s=10">
+                    <div class="carousel-caption cap">
+                        <h3></h3>
+                    </div>
+                </a>
+            </div>
+            
+            
+            
+           
+            
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/45/11/5a/45115a934d6d3349cf198d9cba39c1ba.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>  
+            
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/ba/0a/bf/ba0abf441eb5abe2b36ebad509e58a5f.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/c3/7f/f1/c37ff10118d419e303ae572bf2760219.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/0d/b5/27/0db527fb14d99f0b4fabca8a8d7e220e.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/e9/1e/76/e91e76d77d9752693a8e8f9fdff65bcb.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/6e/41/11/6e411140546a60a25a85bccb77ce052c.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/c1/54/06/c15406a6231d6ca35fe8a32899546c6b.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/4b/d5/c8/4bd5c8fc1e5f2c2b398f4f0fe6784303.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+            <div class="item">
+                <img src="https://i.pinimg.com/736x/d8/a9/e5/d8a9e52a71484392581c397fe0784e4c.jpg">
+                <div class="carousel-caption cap">
+                    <h3></h3>
+                </div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#HeadCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#HeadCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+
+
+<div class="main-content">
+        
+
+      
+<div class="nta">
+          <a href="https://rawcdn.githack.com/MuzammilShah51214/GeoTV-Dramas/52f595d61e78e2a7834bae1d93c471f35c73c262/Geo-HarPal-Dramas-&-Telefilms.html">
+        
+                <h4 class="alignleft">7TH SKY ENTERTAINMENT</h4>
+                <span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span>
+                </span>
+            </a>
+        </div>
+
+
+
+
+
+  
+        <div class="scrollmenu">
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/Pak-Dramas/acaac3d102d8dad1e6d1748b541407027254c607/Mann-mast-malang.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5ZJuW_mbabywVYpYmNWpzfj12hSGChg7rTFq1FyfXacGek_TjTd_8-WE&s=10">
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/ad87be2f087f33a8cc321c7d32d938493f80f6d3/Ruposh.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQaSgqySh-e7AcAe-w0y80IiPl3RYUBIi9Lg&s">
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/7febf157db567df3d4b01a07ef10ad7f713d2545/Love%20life%20ka%20law.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://i.ytimg.com/vi/ZUz0CYwOcP0/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAbzpWWeSf5o4P6D0bYzBhohhmDew">
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/cfab0f3c3b5fbdb33869b2fb20be5b4d7f8f2055/Filmi-siyapa.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://i.ytimg.com/vi/-zbL2GvEDak/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC66TiOUOmKk79X15zNUIwINb7A2w">
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/d95179b2865f5aabaf747a7fa7557090a176eec3/TeriMeriKahani.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://i.ytimg.com/vi/irZPTn1wuAU/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAb6DxqYsKGNkuk8wGh9xeEM8Gqiw">
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/455d18a21a5a6deda62858186ec054cc1630d687/TEREPYAARMAIN.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://i.ytimg.com/vi/pv-GPWaX7BY/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCkFdeC5YzhkoJyPJg8CaDkEkftdg">
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/63b4a246c9c49a9dca52310380723b668428e0e4/Wajood-movie.html" class="context-menu-block">
+                <img class="mnt disable-context-menu" src="https://i.pinimg.com/736x/74/3e/01/743e01dcfb8bf25ee203d5cba0f9e03b.jpg">
+            </a>
+        </div>
+
+        <div class="nta">
+          <a href="https://rawcdn.githack.com/MuzammilShah51214/Live-Tv-786/efd71f2438a2eb6902d7bdc4b8e270556142bd6f/PAKISTAN-LIVE-TV.html">
+        
+                <h4 class="alignleft">PAKISTANI CHANNELS</h4>
+                <span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span>
+                </span>
+            </a>
+        </div>
+        
+        <div class="scrollmenu">
+            
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/fc1fcfb412e257bb1b6535f86ae88bde7e808a88/Suchtv.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://canvas.tamashaweb.com/jazzlive/uploads/channels/poster/such-tv-live.webp?id=83">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/4f5f8be4a5964c4202599ed43acaed3c5dea35b8/GeoEnt.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/geo-entertainment-live.webp?id=75">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/90ce5a6748d708ac5b946efc99dd8b5745f0ba30/Samaa.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/channels/new_thumbs/1633512222056d2-65d9a-saama-tv-low.jpg">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/2ab8a57681773fdc279e867a24c6dd887872a0c5/Dunyanews.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZXfD8mXuhzYNORwhKe9bZ8Yr-Vi5mbSnTsqc9PAMr3gNZIrM58bbyTFxM&s=10">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/d1afbbeacb7b519285a260b952b681a534d56c34/AryNews.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://i.pinimg.com/originals/ff/bf/97/ffbf972e33e78d97e4fcd23be2c4a50d.jpg" alt="arynews">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/af57ba724c24d17dece4e20a65b39c67f70e0291/AurLife.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1745518766547.webp?id=28" alt="aurLife">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/fd3e0c62f313022d31f4480eff06afbcbca39c52/APlus.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/a-plus-live.webp?id=54">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/9312b4096a452c751001310652c0cc46ab9b8c74/ExpressEnt.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://canvas.tamashaweb.com/jazzlive/uploads/channels/poster/express-entertainment-live.webp?id=73">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/4aa625764e02de66db90f5b9c62537399f029e0b/Ary%20Digital.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://i.pinimg.com/originals/9b/01/7d/9b017d69d2fed544afc1df0b89747e8f.jpg">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/37629d6225123bb17771ca01a3a334818ad071be/Humhd.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://i.pinimg.com/originals/80/a1/f8/80a1f8c40d191e0718a883797e69f4f9.jpg" alt="HumTvHD">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/421e6c703c3744e0b41d969708454fff438fa70c/Bolent.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/channels/new_thumbs/16419858521.jpg" alt="bolent">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/af11352c79da09dc99616a855b33b5e6673af5bc/PtvHome.html" class="context-menu-block">
+                <div class="cen disable-context-menu">
+                    <img class="nt" src="https://ptv.com.pk/frontend/media/gallery/ptvlivehome.jpg">
+                    <span class="live-badge">LIVE</span>
+                </div>
+            </a>
+        </div>
+        
+      <div class="nta">
+    <h4 class="alignleft">ARY FILMS</h4><h4 class="alignright"></h4></a>
+</div>
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/ac7e783168155e64d5169dd0adb38dec665d4ecc/MujhyPyaarHuaTha.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi/VxoBq0FJcdI/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA0Ds6CcIN7sYkIJba379iONtedUQ">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/783b5e161720504b71bc904bd471645469b315a7/DoBol.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi/yDMXkavsqnA/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLClNd_zDEd4KTDsvKN7Tv1ZS0jBrA">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/65aaeb476343c6089bb6ffd828322aca06959774/MerePaasTumHo.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi/U_ek8fYaYyk/hq720.jpg?sqp=-oaymwEcCK4FEIIDSEbyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA_evij2YaTeORPVI_fQIhIiUrKoQ">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/aabb2fa57d104faa774e793514256733a11f434e/Guzaarish.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi_webp/qYZSf_FAvnk/mqdefault.webp">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/143ee2664e70413f22aa7da516b8f3baed0ceb2f/IshqHai.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi_webp/5xh49S-abQM/mqdefault.webp">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/01d64271b621566e7825d117bbdb4fe19854097e/Mere%20Humsafar.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi/EJgJEAXA5C0/mqdefault.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/603104025581f1a6c885ffd3c6225bd25b8bb2cc/Habs.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi_webp/dnT49e-1k0I/mqdefault.webp">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/a7d156db75496237af3d9265052f094ca45aa1f0/SinfeAhan.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi_webp/KY6oj9Mpngs/mqdefault.webp">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/77de7c481366d44ceeb6cdac6b86d4daf7514dca/Qurban.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi_webp/ZvFLL7Bf9zA/mqdefault.webp">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/0182a46e051fe2efea9685941034529931d8c6bc/TereIshqKNaam.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.ytimg.com/vi_webp/6-QO01SqHbk/mqdefault.webp">
+        </div>
+    </a>
+</div>
+
+
+
+
+<div class="nta">
+            <a href="https://rawcdn.githack.com/MuzammilShah51214/Live-Tv-786/55a427ea640c0522f48f1df02c92de532e59c72e/Pakistani_Movies.html">
+                <h4 class="alignleft">PAKISTANI MOVIES</h4>
+                <span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span>
+                
+            </a>
+        </div>
+
+<div class="scrollmenu">
+    <a href="https://ok.ru/videoembed/1569584581128" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/d7/f9/3f/d7f93f9c54dd020e7728686cd14c73c1.jpg">
+        </div>
+    </a>
+    <a href="https://ok.ru/videoembed/2015447354029" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/43/40/b5/4340b5a3fc898579f80807168c75c3b8.jpg">
+        </div>
+    </a>
+    <a href="https://videospk.xyz/embed/zykh1k3iolt8" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/43/8b/f4/438bf40e86e2a56ce9ec2deb73618c81.jpg">
+        </div>
+    </a>
+    <a href="https://vidmoly.to/embed-m1j6knqhjctw.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2022/07/London-Nahi-Jaunga-2022.jpg">
+        </div>
+    </a>
+    <a href="https://kitabmarkaz.xyz/e/m9x2os1zsvay" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2020/01/The-Legend-of-Maula-Jatt-2019-Pakistani-Film.jpeg">
+        </div>
+    </a>
+    <a href="https://videospk.xyz/embed/0k9mb1n7dd39" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2020/08/Sherdil-2019-Pakistani-123movies-Film.jpg">
+        </div>
+    </a>
+    <a href="https://videospk.xyz/embed/uuqqvg4ikmzn" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2024/06/Umro-Ayyar-2024.jpg">
+        </div>
+    </a>
+    <a href="https://kitabmarkaz.xyz/e/9baltq6u411i" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2022/11/Tich-Button-2022.jpg">
+        </div>
+    </a>
+    <a href="https://vidmoly.to/embed-rw5robj3md0w.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2023/07/Babylicious-2023.jpg">
+        </div>
+    </a>
+    <a href="//gdriveplayer.me/embed2.php?link=h%252Bd454QjIF2LdJ719C2d6AmnzpyMeRzjkRdFpu%252FdYdyiRp6HNIIL0iJdfLeLLodxzO9ccuM5J%252FPN%252FlsAaJREFiM8cMAukP7rMlurGkblxVxygRyP%252BTuMKsmbFpygWa%252BX%252Fljwp%252Fm3KR86P0eUAOBRvQn3kNvTZ3j%252BkCZS3KUx6dFXSWNwER8qbKLAkAvJqkLtY%253D" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://movies123.pk/wp-content/uploads/2020/01/Yalghaar-2017-Pakistani-Urdu-123movies-Film.jpg">
+        </div>
+    </a>
+</div>
+
+
+
+
+<div class="nta"><a href="https://rawcdn.githack.com/MuzammilShah51214/Sports-TV-Live/188782f17ad89521eb1fea8c6a00820aee6b3cd1/Sports-Channels-Live.html">
+    <h4 class="alignleft">SPORTS CHANNELS</h4> <class="context-menu-block"><span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span></div>
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Live-Tv-786/163e5406009240115ad5b1d3b012cbb1141f4e13/PTV-SPORTS.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/ff/0c/a0/ff0ca0ac3fa4fb1f6c960f05800a588f.jpg">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/79e2910c1cb84c006c32739a4a8e71e95aa0bcf4/TENSPORTS-HD.html" class="context-menu-block">
+        <div class="cen ag disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/97/36/0d/97360d966cb407835a335757a42c6275.jpg">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Sports-TV-Live/04584140faeefc7f1660837d6f4b4f035fc1ef30/Geo-Super.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/f3/0f/57/f30f57f7816017497dc09cc5eb0d28ef.jpg">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Sports-TV-Live/9a5afe2942e3d3f0b549e8d11c3e1ebbab6a8547/Sony-Ten1-HD.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://jiotv.catchup.cdn.jio.com/dare_images/images/Ten_HD.png">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Sports-TV-Live/abd638bdfc97a8ad4922d00957bdbd43592cb887/Star-Sports2-HD.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhhxm2FXlwHKChItg2WGpd4Jasi66k6C-vP540GBeFFFl9JrmMsYez_Frz&s=10">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+</div>
+
+
+
+
+<div class="nta"><a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/6f22b61a2b459b08befcaa51b0b8d8be801bb9bd/IndianTV-LIVE.html"class="context-menu-block"><h4 class="alignleft">INDIAN CHANNELS</h4><class="context-menu-block"><span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span></div>
+<div class="scrollmenu">
+	
+	<a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/2d2d8ecf1fe066775197edb26d6a52590e3ecf31/Star-Plus.html" class="context-menu-block">
+        <div class="cen ag disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFVZxMODb_aQ6shtd497EmK28GDWSjbdQthBuJbYceEIoiSi-V4uywehFu&s=10">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    
+    
+<a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/68463f3680af6b78e28add411e13392f3b72c8e7/Star-Bharat-HD.html" class="context-menu-block">
+        <div class="cen ag disable-context-menu">
+            <img class="nt" src="https://stmify.com/wp-content/uploads/2024/11/338-s.webp">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>    
+    
+    
+    
+    
+    
+    
+<a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/9f812c729fed7f0fae3707e0fd8c7303c08ff6d3/Star-Gold-HD.html" class="context-menu-block">
+        <div class="cen ag disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThY-Qg8hbPY4bSe5VIONs5i1hwkqP7IxY9E6m645dIuXs91kPzA2_usRuS&s=10">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>      
+    
+    
+ <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/13202a1bd4b739b381fdbfaecaba290cd6ee8a8a/ZEE_ANMOL.html" class="context-menu-block">
+        <div class="cen ag disable-context-menu">
+            <img class="nt" src="https://cdn.smartads.in/images/product/television/Zee-Anmol.png">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>     
+	
+	
+	
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/6c4b3effee535b10e0c559b6a68437fb0eb72c46/DangalTV.html" class="context-menu-block">
+        <div class="cen ag disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_5lNyCPECRMn0cPQP26U92EvCLVcRbSi7TQ&s">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/b7ad9ec06d7766e7d3a3da25b96e1121e04635ba/9xm.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHpaYHWSKCaKHZNEn-850NOtwtjh06ooE9oQ&usqp=CAU">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/b7ad9ec06d7766e7d3a3da25b96e1121e04635ba/E24.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmDpZ9viDAkaMdPqP3RWFdH9XLPw1XaK9NHm3gk3dioZMNRlhfIPSGhsSw&s=10">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/b7ad9ec06d7766e7d3a3da25b96e1121e04635ba/B4uMovies.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://stmify.com/wp-content/uploads/2025/03/544-s.webp">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/b7ad9ec06d7766e7d3a3da25b96e1121e04635ba/Shemarootv.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpCHjZLeCSAOFh_fZH_eqBCsFv_J3DqPhM4Utjt78hFkmOBA9-YVVzAkY&s=10">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/b7ad9ec06d7766e7d3a3da25b96e1121e04635ba/BBO.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d229kpbsb5jevy.cloudfront.net/tv/480/270/languages/bbo.jpg">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/INDIAN-TV/b7ad9ec06d7766e7d3a3da25b96e1121e04635ba/Showbox.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.ibb.co/fYp2mkMm/Picsart-25-04-18-11-24-53-151.png">
+            <span class="live-badge">LIVE</span>
+        </div>
+    </a>
+</div>
+
+
+
+
+
+
+
+    <div class="nta"><a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/240c8b0d5be107e7d7c56580916f40196c97d272/HUM-TV-Telefilms.html"class="context-menu-block"><h4 class="alignleft">HUM TV Telefilms</h4><class="context-menu-block"><span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span></div>
+
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/fec059785a27d459c8a251df09b733b96f4b6dd9/PyaarKahani.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://i.pinimg.com/736x/78/47/40/78474086d1991f5e47b00a146029dacb.jpg"alt="PyaarKahani">
+        </div>
+    </a>
+    
+    
+    
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/fec059785a27d459c8a251df09b733b96f4b6dd9/Dil-Diyaa-Gallan.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc36j-T3xPsPCapXUfzi_NEoBofE2mREBQ_5nnqYn7TV-W4vBSbWoOcv8&s=10"alt="Dil-Diyaa-Gallan">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/fec059785a27d459c8a251df09b733b96f4b6dd9/Deewani.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVcT8BJXhHxsKeEsLENU5Hmcqir3rLGKUfW-EXlZhmLy0tDCvdG2lYMYs&s=10"alt="Deewangi">
+        </div>
+    </a>
+    
+    
+    
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/fec059785a27d459c8a251df09b733b96f4b6dd9/BandToBajeGa.html" class="context-menu-block">
+        <div class="6 disable-context-menu">
+            <img class="trt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwpS5nAGuJ76_CQ4ZSCWpurqhNHD6sL9Ihb0Ut4U3Rkw&s=10"alt="BandToBajeGa">
+               </div>
+    </a>
+    
+    
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/fec059785a27d459c8a251df09b733b96f4b6dd9/LoveYouDolly.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://hum.tv/wp-content/uploads/2025/06/maxresdefault-2025-06-10T144956.561-750x500.jpg"alt="LoveYouDolly">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Hum-Telefilms/fec059785a27d459c8a251df09b733b96f4b6dd9/HonaThaPyaar.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="trt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaz1XC9dCaZn2St0HacOA3Lv-LV_K9CiLIjh_TPPbziQ&s=10"alt="Hona Tha Pyaar">
+        </div>
+    </a>
+    
+   </div> 
+    
+
+
+
+
+
+
+<div class="nta">
+    <a href="go:" class="context-menu-block"><h4 class="alignleft">Korian Dramas</h4><h4 class="alignright"></h4></a>
+</div>
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/a0b97bc3e816761791370a0224e5b6a4604adba1/Tu-He-meri-dunya.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/1717484943324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/fc09af4e09822afbd7c548a97f57e25454b50289/LioTuLove.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/1673596591324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/5b2eaeb414ad90147120b2c83037f89563392c8c/LoveScanery.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/1684495907324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/e988736b9ae617d55500d8df8c6c2d3a29996811/DulhanBeruitKi.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/166419697805.jpg">
+        </div>
+    </a>
+</div>
+
+
+
+
+<div class="nta"><a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/22c240b73d9d5771a5e86cff78e3d0b0072be5f0/Hollywood-Movies-Urdu-Dubbed.html"class="context-menu-block"><h4 class="alignleft">Hollywood Movies</h4><class="context-menu-block"><span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span></div>
+
+
+
+
+
+
+
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/TheHollow.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1710917788324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/2012.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1705925481324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/TheBattleShipIsland.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1704193772324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/TheDorm.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1702893878324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/MARY%20SHELLEYS%20FRANKENSTEIN.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1713353798324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/13GoingOn30.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1705925047324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/Marina5TheBattleground.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1703072644324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/Faster.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1703592408324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/HollywoodMoviesUrdu/4b3f432829d2c51baf94371cad15c55d8eb1d42b/TheBookOfEli.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/NewVideoOnDemandThumb/1702550478324x432.jpg">
+        </div>
+    </a>
+</div>
+
+<div class="nta">
+    <a href="go:" class="context-menu-block"><h4 class="alignleft">Bol Ent Drama</h4><h4 class="alignright"></h4></a>
+</div>
+<div class="scrollmenu">
+<a href="https://rawcdn.githack.com/MuzammilShah51214/Pak-Dramas/c838fe8ec251942de7d7b69ab78395625d22d203/Dastaan.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAKCRppja1UwroauOrc5b-rsmumALjSUDDEhzU7foijJxQkwL9QOP6bANf&s=10">
+        </div>
+    </a>
+
+
+
+
+
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/8f14b33529157cce96183214334fa68e960c1cf1/Meri%20shehzadiyaan.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/1717573331324x432.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/f49da6a45f73f29f2291b9ed2005809ac00d7700/BolKafara.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/1650435453main-01.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/fb5576bcbe9516cd6c46307b613889cf8e4c1e34/ChandNagar.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://d34080pnh6e62j.cloudfront.net/images/SubNewCategorythumb/1710744170324x432.jpg">
+        </div>
+    </a>
+</div>
+
+
+                    
+                
+        
+                    
+                    
+           <div class="nta"><a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/118d67a16fa1660b799c7931596aff653bd1cd17/INDIAN%20FULL%20DRAMAS%20CODDING.html"class="context-menu-block"><h4 class="alignleft">INDIAN DRAMAS</h4><class="context-menu-block"><span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span></div>             
+                    
+                    
+                    
+                    
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/516b1d850981fc6fbac5acf6833ce2e81ae259b3/Aik-Hazaro-mei-meriBehnaHai.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/63/d1/ae/63d1ae46a0602939bdbf783a4045f43e.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/516b1d850981fc6fbac5acf6833ce2e81ae259b3/Ye%20jado%20hai%20jinka.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/0e/1a/b2/0e1ab293e27cd048f29f4658a10657e6.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/516b1d850981fc6fbac5acf6833ce2e81ae259b3/Ik%20deewana%20tha.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://1plus1tv.com/uploads/posts/2017-11/thumbs/1509538329_odin-bezumec.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/e07861cecc89951f2fd521a93da327a71222780f/Ishq%20Mein%20Marjawan%201-3%20season.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/07/a5/0e/07a50e4e28e07b2383404b43af5601ac.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/98501c10a2e31c4549daf3e954a67061ccc6820d/Bepannah.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/72/7e/b0/727eb01601603f7ef7e3b5444685d91b.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/0e5f5f6e5ca92262814b2cb2ac0ecd4d0bd8fc82/Yeh%20Hai%20Mohabbatein.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/63/87/9b/63879bc725ff616b94fff425f091bd7b.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/59034723d1dabf739d4ef443b60b02d7d65940b7/KasamTeryPyaarKi.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/89/a7/7b/89a77b6f0d8dfbbf537fa5ad114ad768.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/68b17c91d96921c873ce685b2d41d0a65155c903/Ik%20tha%20raja%20ik%20the%20rani.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/d2/9f/9c/d29f9c019d7a3d7b1381c5d1c633c35d.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/82cf282834823ff5493822c84500e5c37c069e54/Nagin.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/71/af/17/71af17f72642fb0ba4c9395387d3d7d3.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/92062b02e0ee58cdac6317b129ced3d47959d89c/Diya%20Aur%20Baati%20Hum.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/20/60/1a/20601a45aa1c0008b25ecca7be3ed77f.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/50315f90fe4f24469263c6d7e6c586b818db64a2/Tu%20Sooraj%20Main%20Saanjh.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/0b/15/f0/0b15f02f9bf70b225fa66bfb20c4c0b2.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/045da4b5347049623c1115d7b97ae271e1422fc9/QaboolHai.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/0f/64/81/0f648114c6f09b4e031b3c47e4b0f08b.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/00c0aca662734050afe7d76028ef0bc6c28edc50/KundliBhagya.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/c6/70/0b/c6700b587e95698088bf3491379b3861.jpg">
+        </div>
+    </a>
+</div>
+
+
+
+<div class="nta"><a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/1808310e6b648755fb5f836e0627c1ef40f99360/Indian-Movies.html"class="context-menu-block"><h4 class="alignleft">SUPER HIT INDIAN MOVIES</h4><class="context-menu-block"><span class="alignright see-all-btn">
+                    See All <span class="see-all-arrow"></span></div>            
+	
+<div class="scrollmenu">	
+	<a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-Dramas.html/6167ddb71e2413a118b942ed1479af725c94748c/Saiyaara-full-movie.html">
+        <div class="cen">
+            <img class="nt" src="https://stat4.bollywoodhungama.in/wp-content/uploads/2025/04/Saiyaara-1-1-306x393.jpg">
+        </div>
+    </a>
+	
+	
+	
+	
+	
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/f321740f9cf0ec5ebd2c0d82b469981db26d0528/Sikander.html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610491/30311/Sikandar-2025-hindi-web-dl-720p-480p-1080p.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/eae8ec93a7313b3e3dc5b95af1e1df5d55e484cd/PyaarKaProffesor.html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610491/30204/Pyar-ka-professor-2025-hindi-web-dl-720p-480p-1080p.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/bccdae0356f6d327c9549df64ac4fb3b359f479d/Sky-force.html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610491/30116/Sky-force-2025-hindi-web-dl-720p-480p-1080p.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/ed099c052ceed2ff6fa7c538bd4b04643c5459f3/SweetDreams(2025).html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610491/30121/Sweet-dreams-2025-hindi-web-dl-720p-480p-1080p.jpg">
+        </div>
+    </a>
+    
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/ed099c052ceed2ff6fa7c538bd4b04643c5459f3/Sanam-Re.html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610555/29672/Sanam-re-2016-hindi-bluray-720p-480p-1080p.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/ed099c052ceed2ff6fa7c538bd4b04643c5459f3/RamiyaVastvaiyaa.html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610533/30089/Ramaiya-vastavaiya-2013-hindi-bluray-720p-480p-1080p.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Indian-movies-folder/ed099c052ceed2ff6fa7c538bd4b04643c5459f3/Aashiqui%202%20(2013).html">
+        <div class="cen">
+            <img class="nt" src="https://vegamovies.com.lv/files/images/1753610555/29786/Aashiqui-2-2013-hindi-web-dl-720p-480p-1080p.jpg">
+        </div>
+    </a>
+</div>
+
+<div class="nta">
+    <a href="go:islamic" class="context-menu-block"><h4 class="alignleft">ISLAMIC</h4></a>
+</div>
+<div class="scrollmenu">
+    <a href="https://d2i5qoshktwlgu.cloudfront.net/islamic/99NAMESOFALLAH/99NAMESOFALLAH.mp4" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/a7/d3/4c/a7d34c4f96bf6dd350dc7973e39a72a3.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/ee60a1249572764a1a737affbe9317bbb0d3cfdd/Quran.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/c4/87/d0/c487d0a9e1e4f915655df30e62a1f63e.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/0fc302d79b9bf956f9623dfca97076d4e1b591f0/Hamd-e-bari-Talla.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/1b/ec/a0/1beca0f6a2f1656f454bb4bd493d319d.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/f3f2617b3fe4a07e48f79c32e7b464b66f6a3fe3/Nohay.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/f0/16/3f/f0163f8346493fd1a31e29cecf7e969b.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/adc84f3b2d3101b86cbcbd1165a4e88c89c43a6d/Majlis.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/37/4f/dd/374fdd07c4c9752e7c7a1ec413f5208c.jpg">
+        </div>
+    </a>
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/LIVE-TV-/950946a2503b557f631ed590be9c232a63ae3112/Farhan-Ali-Waris-nohay.html" class="context-menu-block">
+        <div class="cen disable-context-menu">
+            <img class="nt" src="https://i.pinimg.com/236x/b0/f6/69/b0f669dad8b67381a99a571f33bb97b2.jpg">
+        </div>
+    </a>
+</div>
+
+<div class="nta">
+    <a class="channel_box" href="go:pkhit" class="context-menu-block"><h4 class="alignleft"></h4><h4 class="alignright"></h4></a>
+</div>
+<div class="scrollmenu">
+    <a href="https://rawcdn.githack.com/MuzammilShah51214/Live-Tv-786/f08f926a5e8901bb85127c5f6fbba73e9f34d9ae/Indian-Radio-Live.html" class="context-menu-block">
+        <div class="mnd disable-context-menu">
+            <img class="mnd" src="https://i.postimg.cc/mDLKSZ6z/Pics-Art-10-17-04-48-21.png">
+        </div>
+    </a>
+</div> 
+
+        
+
+
+
+
+
+
+
+
+
+
+    <hr>
+    <h4 class="animation">Syed Muzammil Shah Bukhari</h4> 
+    <hr>
+
+    <script>
+        // JavaScript for click animations only
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animation to all context-menu-block elements
+            document.querySelectorAll('.context-menu-block').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('click-ripple');
+                    
+                    // Get click position relative to the link
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Position the ripple
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    // Add ripple to the link
+                    this.appendChild(ripple);
+                    
+                    // Create glow effect
+                    const glow = document.createElement('div');
+                    glow.classList.add('click-glow');
+                    this.appendChild(glow);
+                    
+                    // Trigger glow animation
+                    setTimeout(() => {
+                        glow.classList.add('click-glow-animate');
+                    }, 10);
+                    
+                    // Add pulse effect to the clicked item
+                    const clickedItem = this.querySelector('.nt, .mnt, .mnd, .trt');
+                    if (clickedItem) {
+                        clickedItem.classList.add('click-pulse');
+                        setTimeout(() => {
+                            clickedItem.classList.remove('click-pulse');
+                        }, 300);
+                    }
+                    
+                    // Remove elements after animation completes
+                    setTimeout(() => {
+                        ripple.remove();
+                        glow.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Prevent context menu for all elements
+  1qàa      document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Alternative: Only prevent for specific elements
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.closest('.scrollmenu') || 
+                e.target.closest('.nta') || 
+                e.target.closest('.carousel-inner')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
